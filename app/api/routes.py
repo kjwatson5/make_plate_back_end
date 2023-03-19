@@ -15,7 +15,7 @@ def create_food(current_user_token):
 
     print(f'BIG TESTER: {current_user_token.token}')
 
-    food = food(main_course, vegetable, side_dish, dessert, user_token = user_token)
+    food = Food(main_course, vegetable, side_dish, dessert, user_token = user_token)
 
     db.session.add(food)
     db.session.commit()
