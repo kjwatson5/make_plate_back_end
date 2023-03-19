@@ -4,10 +4,6 @@ from models import db, User, Food, food_schema, foods_schema
 
 api = Blueprint('api', __name__, url_prefix = '/api')
 
-@api.route('/getdata')
-def getdata():
-    return {'yee': 'haw'}
-
 @api.route('/food', methods = ['POST'])
 @token_required
 def create_food(current_user_token):
@@ -39,7 +35,7 @@ def get_food(current_user_token):
 @api.route('/food/<id>', methods = ['GET'])
 @token_required
 def get_single_food(current_user_token, id):
-    food = food.query.get(id)
+    food = Food.query.get(id)
     response = food_schema.dump(food)
     return jsonify(response)
 
@@ -47,7 +43,7 @@ def get_single_food(current_user_token, id):
 @api.route('/food/<id>', methods = ['POST', 'PUT'])
 @token_required
 def update_food(current_user_token, id):
-    food = food.query.get(id)
+    food = Food.query.get(id)
     food.main_course = request.json['main_course']
     food.vegetable = request.json['vegetable']
     food.side_dish = request.json['side_dish']
@@ -62,7 +58,7 @@ def update_food(current_user_token, id):
 @api.route('/food/<id>', methods = ['DELETE'])
 @token_required
 def delete_food(current_user_token, id):
-    food = food.query.get(id)
+    food = Food.query.get(id)
     db.session.delete(food)
     db.session.commit()
     response = food_schema.dump(food)
